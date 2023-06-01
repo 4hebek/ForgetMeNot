@@ -1,0 +1,44 @@
+﻿@page "/getnotes"
+
+<PageTitle>Notes</PageTitle>
+
+@using ForgetMeNot.Data
+@inject NoteService NoteService
+
+<h1>Notes</h1>
+
+<p>Here are all your notes.</p>
+
+@if (notes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Text</th>
+                <th>CreatedDate</th>              
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var note in notes)
+            {
+                <tr>
+                    <td>@note.CreatedDate.ToShortDateString()</td>
+                    <td>@note.Text</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Note[]? notes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        notes = await NoteService.GetNotesAsync(DateTime.Now);
+    }
+}

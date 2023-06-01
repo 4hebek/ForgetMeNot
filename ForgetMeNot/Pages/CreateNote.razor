@@ -1,0 +1,34 @@
+﻿@page "/createnote"
+
+@using Microsoft.Extensions.Logging
+@inject ILogger<Note> Logger
+@using ForgetMeNot.Data
+@inject NoteService NoteService
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create note</h1>
+
+<EditForm Model="@note" OnValidSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText id="note" @bind-Value="note.Text" />
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+
+@code {
+    private Note note = new();
+
+    private void HandleSubmit()
+    {
+        Logger.LogInformation("Note created");
+
+        note = NoteService.CreateNote("gsdg");
+
+        // Process the form
+    }
+}
+
